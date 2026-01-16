@@ -1,0 +1,8 @@
+target/
+.mvn/
+data/*.db
+uploads/*.jpg
+uploads/*.png
+*.log
+.git
+.gitignore
