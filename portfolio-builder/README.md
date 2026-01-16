@@ -2,6 +2,10 @@
 
 A full-stack web application for creating professional portfolios with resume parsing and modern design.
 
+## Live Demo
+
+🚀 **[https://portfolio-builder-ovz2.onrender.com](https://portfolio-builder-ovz2.onrender.com)**
+
 ## Features
 
 - User authentication (signup/login)
