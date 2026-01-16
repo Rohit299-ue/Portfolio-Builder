@@ -1,0 +1,23 @@
+# Maven
+portfolio-builder/target/
+portfolio-builder/.mvn/
+
+# Database files
+portfolio-builder/data/*.db
+portfolio-builder/data/*.trace.db
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (user content)
+portfolio-builder/uploads/*
+!portfolio-builder/uploads/.gitkeep
+
+# Logs
+*.log

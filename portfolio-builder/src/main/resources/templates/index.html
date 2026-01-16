@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Builder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; color: white;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { text-align: center; padding: 80px 0; }
+        header h1 { font-size: 56px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        header p { font-size: 24px; margin-bottom: 40px; opacity: 0.9; }
+        .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 15px 40px; font-size: 18px; border: none; border-radius: 50px;
+            cursor: pointer; text-decoration: none; display: inline-block;
+            transition: all 0.3s; font-weight: 600;
+        }
+        .btn-primary { background: white; color: #667eea; }
+        .btn-secondary { background: rgba(255,255,255,0.2); color: white; border: 2px solid white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .features {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; margin-top: 80px;
+        }
+        .feature {
+            background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px;
+            backdrop-filter: blur(10px); text-align: center;
+        }
+        .feature-icon { font-size: 48px; margin-bottom: 20px; }
+        .feature h3 { font-size: 24px; margin-bottom: 15px; }
+        .feature p { opacity: 0.9; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Portfolio Builder</h1>
+            <p>Create Your Professional Portfolio in Minutes</p>
+            <div class="cta-buttons">
+                <a href="/signup" class="btn btn-primary">Get Started Free</a>
+                <a href="/login" class="btn btn-secondary">Login</a>
+            </div>
+        </header>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📝</div>
+                <h3>Easy Profile Setup</h3>
+                <p>Fill in your details, skills, and experience</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📄</div>
+                <h3>Resume Upload</h3>
+                <p>Upload your resume and we'll automatically extract your skills, experience, and education</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>Showcase Projects</h3>
+                <p>Add your projects with descriptions and links</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h3>Beautiful Design</h3>
+                <p>Get a professionally designed portfolio</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📦</div>
+                <h3>Download as ZIP</h3>
+                <p>Download your complete portfolio package</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📑</div>
+                <h3>Download as PDF</h3>
+                <p>Get a professional PDF document</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

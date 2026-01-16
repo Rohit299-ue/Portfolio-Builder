@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .header h1 { font-size: 24px; }
+        .header a {
+            color: white; text-decoration: none; padding: 8px 16px;
+            background: rgba(255,255,255,0.2); border-radius: 5px; margin-left: 10px;
+        }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .alert {
+            padding: 15px; border-radius: 5px; margin-bottom: 20px;
+            background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+        }
+        .card {
+            background: white; padding: 30px; border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px;
+        }
+        .card h2 {
+            color: #333; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
+        input, textarea {
+            width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px;
+            font-size: 14px; font-family: inherit;
+        }
+        textarea { min-height: 100px; resize: vertical; }
+        input:focus, textarea:focus { outline: none; border-color: #667eea; }
+        button, .btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 5px; font-size: 14px;
+            font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block;
+        }
+        button:hover, .btn:hover { opacity: 0.9; }
+        .btn-secondary { background: #6c757d; }
+        .btn-success { background: #28a745; }
+        .project-item {
+            background: #f9f9f9; padding: 15px; border-radius: 5px;
+            margin-bottom: 15px; border-left: 4px solid #667eea;
+        }
+        .project-item h4 { color: #333; margin-bottom: 5px; }
+        .project-item p { color: #666; font-size: 14px; }
+        .download-section { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Portfolio Dashboard</h1>
+        <div>
+            <a th:href="@{'/portfolio/' + ${user.username}}" target="_blank">View Portfolio</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div th:if="${param.success}" class="alert">✅ Changes saved successfully!</div>
+        <div th:if="${param.heroPhoto == 'success'}" class="alert">✅ Hero photo uploaded successfully!</div>
+        <div th:if="${param.aboutPhoto == 'success'}" class="alert">✅ About photo uploaded successfully!</div>
+        <div th:if="${param.heroPhoto == 'error'}" class="alert" style="background: #f8d7da; color: #721c24;">❌ Hero photo upload failed!</div>
+        <div th:if="${param.aboutPhoto == 'error'}" class="alert" style="background: #f8d7da; color: #721c24;">❌ About photo upload failed!</div>
+        <div th:if="${param.resume == 'success'}" class="alert">✅ Resume uploaded and data extracted!</div>
+        <div th:if="${param.project == 'added'}" class="alert">✅ Project added successfully!</div>
+
+        <div class="card">
+            <h2>📷 Upload Profile Photos</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                Upload 2 photos for your portfolio: one for the hero section and one for the about section
+            </p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
+                <!-- Hero Photo Upload -->
+                <div style="border: 2px dashed #667eea; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">🎯 Hero Photo</h3>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                        This appears in the top section of your portfolio
+                    </p>
+                    <form method="post" action="/dashboard/upload-hero-photo" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" name="heroPhoto" accept="image/*" required>
+                        </div>
+                        <button type="submit">📤 Upload Hero Photo</button>
+                    </form>
+                    <p th:if="${user.heroPhotoFileName}" style="margin-top: 15px; color: #28a745;">
+                        ✅ Uploaded: <span th:text="${user.heroPhotoFileName}"></span>
+                    </p>
+                    <div th:if="${user.heroPhotoFileName}" style="margin-top: 15px;">
+                        <img th:src="@{'/uploads/' + ${user.heroPhotoFileName}}" alt="Hero Photo" 
+                             style="max-width: 100%; border-radius: 10px; border: 3px solid #667eea;">
+                    </div>
+                </div>
+                
+                <!-- About Photo Upload -->
+                <div style="border: 2px dashed #28a745; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #28a745; margin-bottom: 15px;">👤 About Photo</h3>
+                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                        This appears in the about section with gradient frame
+                    </p>
+                    <form method="post" action="/dashboard/upload-about-photo" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" name="aboutPhoto" accept="image/*" required>
+                        </div>
+                        <button type="submit" style="background: #28a745;">📤 Upload About Photo</button>
+                    </form>
+                    <p th:if="${user.aboutPhotoFileName}" style="margin-top: 15px; color: #28a745;">
+                        ✅ Uploaded: <span th:text="${user.aboutPhotoFileName}"></span>
+                    </p>
+                    <div th:if="${user.aboutPhotoFileName}" style="margin-top: 15px;">
+                        <img th:src="@{'/uploads/' + ${user.aboutPhotoFileName}}" alt="About Photo" 
+                             style="max-width: 100%; border-radius: 10px; border: 3px solid #28a745;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📄 Upload Resume (Auto-Extract Data)</h2>
+            <p style="color: #666; margin-bottom: 15px;">
+                Upload your resume and we'll automatically extract skills, experience, and education
+            </p>
+            <form method="post" action="/dashboard/upload-resume" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+                </div>
+                <button type="submit">📤 Upload Resume</button>
+            </form>
+            <p th:if="${user.resumeFileName}" style="margin-top: 15px; color: #28a745;">
+                ✅ Current resume: <span th:text="${user.resumeFileName}"></span>
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>📝 Profile Information</h2>
+            <form method="post" action="/dashboard/profile" th:object="${user}">
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" th:field="*{fullName}">
+                    </div>
+                    <div class="form-group">
+                        <label>Title/Role</label>
+                        <input type="text" th:field="*{title}" placeholder="e.g., Full Stack Developer">
+                    </div>
+                </div>
+                
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" th:field="*{phone}">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" th:field="*{location}" placeholder="City, Country">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Hero Section Bio (Short introduction for top of page)</label>
+                    <textarea th:field="*{bio}" placeholder="e.g., I am a passionate developer creating amazing web experiences..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>About Section Text (Detailed description for about section)</label>
+                    <textarea th:field="*{aboutText}" placeholder="e.g., I am a creative professional with expertise in..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Skills (comma separated)</label>
+                    <input type="text" th:field="*{skills}" placeholder="Java, Spring Boot, React, etc.">
+                </div>
+                
+                <div class="grid">
+                    <div class="form-group">
+                        <label>LinkedIn URL</label>
+                        <input type="url" th:field="*{linkedinUrl}">
+                    </div>
+                    <div class="form-group">
+                        <label>GitHub URL</label>
+                        <input type="url" th:field="*{githubUrl}">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Experience</label>
+                    <textarea th:field="*{experience}" placeholder="Your work experience..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Education</label>
+                    <textarea th:field="*{education}" placeholder="Your education background..."></textarea>
+                </div>
+                
+                <button type="submit">💾 Save Profile</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Projects</h2>
+            
+            <div th:if="${projects.isEmpty()}" style="color: #666; margin-bottom: 20px;">
+                No projects added yet. Add your first project below!
+            </div>
+            
+            <div th:each="project : ${projects}" class="project-item">
+                <h4 th:text="${project.title}">Project Title</h4>
+                <p th:text="${project.description}">Description</p>
+                <p><strong>Tech:</strong> <span th:text="${project.technologies}"></span></p>
+            </div>
+            
+            <h3 style="margin-top: 30px; margin-bottom: 15px; color: #555;">Add New Project</h3>
+            <form method="post" action="/dashboard/projects">
+                <div class="form-group">
+                    <label>Project Title</label>
+                    <input type="text" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Technologies (comma separated)</label>
+                    <input type="text" name="technologies" placeholder="Java, Spring, React">
+                </div>
+                
+                <div class="grid">
+                    <div class="form-group">
+                        <label>GitHub URL</label>
+                        <input type="url" name="githubUrl">
+                    </div>
+                    <div class="form-group">
+                        <label>Live Demo URL</label>
+                        <input type="url" name="liveUrl">
+                    </div>
+                </div>
+                
+                <button type="submit">➕ Add Project</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>⬇️ Download Portfolio</h2>
+            <p style="color: #666; margin-bottom: 15px;">
+                Download your portfolio in different formats
+            </p>
+            <div class="download-section">
+                <a href="/dashboard/download/html" class="btn">📄 Download as HTML</a>
+                <a href="/dashboard/download/pdf" class="btn btn-secondary">📑 Download as PDF</a>
+                <a href="/dashboard/download/zip" class="btn btn-success">📦 Download as ZIP</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

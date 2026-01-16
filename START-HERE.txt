@@ -1,0 +1,34 @@
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║              Portfolio Builder - START HERE                    ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+HOW TO RUN:
+
+1. Go to folder: portfolio-builder
+
+2. Double-click: ULTIMATE-FIX.bat
+
+3. Wait for: "Started PortfolioApplication"
+
+4. Open browser: http://localhost:8080
+
+
+FEATURES:
+
+✅ Sign up and login
+✅ Upload resume (auto-extracts data)
+✅ Create portfolio
+✅ Download as ZIP/PDF/HTML
+
+
+FIRST RUN: 2-3 minutes (downloads dependencies)
+NEXT RUNS: 10-20 seconds
+
+
+═══════════════════════════════════════════════════════════════
+
+That's it! Just run ULTIMATE-FIX.bat 🚀
+
+═══════════════════════════════════════════════════════════════
